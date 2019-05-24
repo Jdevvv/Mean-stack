@@ -1,0 +1,19 @@
+.form-control.ng-dirty.ng-invalid.ng-touched {
+    border: 2px solid red;
+}
+
+.form-control.ng-dirty.ng-valid.ng-touched {
+    border: 2px solid green;
+}
+
+.help-block {
+    color: rgb(46, 46, 46);
+} 
+
+.form {
+    width: 50%
+}
+
+.title {
+    text-decoration: underline;
+}

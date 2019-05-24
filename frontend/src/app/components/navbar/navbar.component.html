@@ -1,0 +1,32 @@
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3">
+  <h5 class="my-0 mr-md-auto font-weight-normal"><a routerLink="/home"><img src="../../../assets/img/logomedium.png"
+        class="my-0 mr-md-auto logo"></a></h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <!-- <a *ngIf="authService.loggedIn()" class="p-2 text-dark" routerLink="/dashboard">Mon compte</a> -->
+    <a *ngIf="authService.loggedIn()" class="p-2 text-dark" routerLink="/profile">Profil</a>
+    <!-- <a *ngIf="authService.loggedIn()" class="p-2 text-dark" routerLink="/blog">Blog</a> -->
+  </nav>
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-3"><circle cx="10.5" cy="10.5" r="7.5"></circle><line x1="21" y1="21" x2="15.8" y2="15.8"></line></svg>
+  <svg *ngIf="authService.loggedIn()" class="svgIcon-use mr-3" width="25" height="25" viewBox="-293 409 25 25"><path d="M-273.327 423.67l-1.673-1.52v-3.646a5.5 5.5 0 0 0-6.04-5.474c-2.86.273-4.96 2.838-4.96 5.71v3.41l-1.68 1.553c-.204.19-.32.456-.32.734V427a1 1 0 0 0 1 1h3.49a3.079 3.079 0 0 0 3.01 2.45 3.08 3.08 0 0 0 3.01-2.45h3.49a1 1 0 0 0 1-1v-2.59c0-.28-.12-.55-.327-.74zm-7.173 5.63c-.842 0-1.55-.546-1.812-1.3h3.624a1.92 1.92 0 0 1-1.812 1.3zm6.35-2.45h-12.7v-2.347l1.63-1.51c.236-.216.37-.522.37-.843v-3.41c0-2.35 1.72-4.356 3.92-4.565a4.353 4.353 0 0 1 4.78 4.33v3.645c0 .324.137.633.376.85l1.624 1.477v2.373z"></path></svg>
+
+  <a *ngIf="!authService.loggedIn()" class="btn btn-outline-success mr-2" routerLink="/register">S'incrire</a>
+  <a *ngIf="!authService.loggedIn()" class="btn btn-outline-dark mr-2" routerLink="/login">Se connecter</a>
+  <a *ngIf="authService.loggedIn()" class="btn btn-outline-danger" href="#" (click)="onLogoutClick()" >Déconnexion</a>
+</div>
+<!-- 
+<div class="nav-scroller py-1 mb-2">
+    <nav class="nav d-flex justify-content-between">
+      <a class="p-2 text-muted" href="#">World</a>
+      <a class="p-2 text-muted" href="#">U.S.</a>
+      <a class="p-2 text-muted" href="#">Technology</a>
+      <a class="p-2 text-muted" href="#">Design</a>
+      <a class="p-2 text-muted" href="#">Culture</a>
+      <a class="p-2 text-muted" href="#">Business</a>
+      <a class="p-2 text-muted" href="#">Politics</a>
+      <a class="p-2 text-muted" href="#">Opinion</a>
+      <a class="p-2 text-muted" href="#">Science</a>
+      <a class="p-2 text-muted" href="#">Health</a>
+      <a class="p-2 text-muted" href="#">Style</a>
+      <a class="p-2 text-muted" href="#">Travel</a>
+    </nav>
+  </div> -->

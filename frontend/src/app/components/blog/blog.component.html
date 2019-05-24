@@ -1,0 +1,141 @@
+<div class="row show-hide-message" *ngIf="message && newPost">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
+<button type="button" name="button" class="btn btn-dark" *ngIf="!newPost && authService.loggedIn()" (click)="newBlogForm()">Nouvel
+  article</button>
+<!-- <button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-default" *ngIf="!newPost" (click)="reloadBlog()"><i
+    class="fas fa-sync-alt mr-1"></i>Rafraîchir</button> -->
+
+<br>
+<br>
+
+<!-- New Blog Form -->
+<form [formGroup]="form" name="blogForm" (submit)="onBlogSubmit()" *ngIf="newPost">
+
+  <!-- Title Input -->
+  <div class="form-group">
+    <label for="title">Titre</label>
+    <div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
+      <input type="text" name="title" class="form-control" formControlName="title" />
+      <ul class="help-block">
+        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.required">Ce champ est requis</li>
+        <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">Min
+          : 3 caractères</li>
+        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation">Lettres ou chiffres
+          seulement</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Body Input -->
+  <div class="form-group">
+    <label for="Body">Contenu</label>
+    <div>
+      <textarea name="body" id="" cols="80" rows="8" class="form-control" formControlName="body"></textarea>
+      <ul class="help-block">
+        <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">Ce champ est requis</li>
+        <li *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">Min
+          : 5 caract. Max 500 caract.</li>
+      </ul>
+    </div>
+  </div>
+
+  <button [disabled]="processing" type="button" name="button" class="btn btn-default" (click)="goBack()">Retour</button>
+  <button [disabled]="processing || !form.valid" type="submit" name="button" class="btn btn-success">Envoyer</button>
+
+</form>
+
+
+<div *ngIf="!newPost">
+
+
+  <div class="card mb-3" *ngFor="let blog of blogPosts">
+    <!-- Body -->
+    <div class="card-body">
+      <h5 class="card-title">{{ blog.title }}</h5>
+      <p class="card-text">{{ blog.body }}</p>
+    </div>
+    <!-- End Body -->
+
+    <!-- Footer -->
+    <div class="card-footer text-muted">
+      <div>
+        <button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="username !== blog.createdBy" (click)="favBlog(blog._id)">
+          <i class="far fa-star mr-2"></i>{{ counterFav }}
+        </button>
+      </div>
+      <i>Posté par : </i><b>{{ blog.createdBy }}</b>
+      <br>
+      <i>Date : </i><b>{{ blog.createdAt | date:'dd MMM, yyyy' }}</b>
+      <br>
+      <a [routerLink]="['/edit-blog/', blog._id]" *ngIf="username === blog.createdBy"><button type="button" name="button"
+          class="btn btn-sm btn-info">Modifier</button></a>
+      <a [routerLink]="['/delete-blog/', blog._id]" *ngIf="username === blog.createdBy"><button type="button" name="button"
+          class="btn btn-sm btn-danger">Supprimer</button></a>
+
+    </div>
+    <!-- End Footer -->
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <!-- Post Comment Button -->
+        <button type="button" name="button" class="btn btn-sm btn-dark" (click)="draftComment(blog._id)" [disabled]="newComment.indexOf(blog._id) > -1">Écrire
+          un commentaire</button>
+
+        <div *ngIf="newComment.indexOf(blog._id) > -1">
+
+          <!-- Form: Comment Form Start -->
+          <form [formGroup]="commentForm" class="mt-3">
+            <!-- Textarea Input -->
+            <textarea name="comment" rows="10" cols="30" class="form-control" formControlName="comment"></textarea>
+            <!-- Validation -->
+            <div [ngClass]="{'has-success': !commentForm.controls.comment.errors && commentForm.controls.comment.dirty, 'has-error': commentForm.controls.comment.dirty && commentForm.controls.comment.errors}">
+              <ul class="help-block">
+                <li *ngIf="commentForm.controls.comment.errors?.required && commentForm.controls.comment.dirty">Ce champ est requis</li>
+                <li *ngIf="(commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty) ||(commentForm.controls.comment.errors?.minlength && commentForm.controls.comment.dirty)">Comment
+                 Doit être entre 1 et 200 caractères.</li>
+              </ul>
+            </div>
+            <!-- Cancel Button -->
+            <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="cancelSubmission(blog._id)">Annuler</button>
+            <!-- Post Button -->
+            <button [disabled]="!commentForm.valid || processing" type="submit" name="button" class="btn btn-sm btn-info"
+              (click)="postComment(blog._id)">Envoyer</button>
+          </form>
+          <!-- Form: Comment Form End -->
+
+        </div>
+
+        <!-- Show Comments -->
+      <li *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0" class="list-group-item">
+        <span (click)="expand(blog._id)">
+          Afficher les commentaires&nbsp;&nbsp;
+          <i class="fas fa-plus"></i>
+        </span>
+      </li>
+
+      <!-- Hide Comments -->
+      <li *ngIf="enabledComments.indexOf(blog._id) > -1" class="list-group-item">
+        <span (click)="collapse(blog._id)">
+          Masquer les commentaires&nbsp;&nbsp;
+          <i class="fas fa-minus"></i>
+        </span>
+      </li>
+
+      <!-- Comment -->
+      <div *ngIf="enabledComments.indexOf(blog._id) > -1">
+        <li *ngFor="let comment of blog.comments" class="list-group-item">
+          <strong>{{ comment.commentator }} : </strong> {{ comment.comment }}
+          <br>
+          {{ blog.createdAt | date:'dd MMM yyyy' }} à {{ blog.createdAt | date:'HH:mm:ss' }}
+        </li>
+      </div>
+    </ul>
+
+  </div>
+  <!-- End Card -->
+
+</div>

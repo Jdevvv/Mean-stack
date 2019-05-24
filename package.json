@@ -1,0 +1,32 @@
+{
+  "name": "mean-stack",
+  "version": "1.0.0",
+  "description": "Blog with MEAN Stack",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jdevvv/Mean-stack.git"
+  },
+  "keywords": [
+    "MEAN",
+    "Stack",
+    "Medium"
+  ],
+  "author": "Jeremy Llanta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jdevvv/Mean-stack/issues"
+  },
+  "homepage": "https://github.com/Jdevvv/Mean-stack#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.3.15"
+  }
+}

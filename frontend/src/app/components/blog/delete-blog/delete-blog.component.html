@@ -1,0 +1,34 @@
+<div class="row show-hide-message" *ngIf="message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
+<div class="col-md-6" *ngIf="foundBlog">
+  <div class="card mb-3">
+    <div class="card-title pt-2 pl-2">
+      <h4 class="card-title">Confirmer</h4>
+    </div>
+    <div class="card-text pt-2 pl-2">
+      <p>Êtes-vous sûr de vouloir supprimer cet article ?</p>
+    </div>
+    <div class="card-footer text-right">
+      <button [disabled]="processing" type="button" name="button" class="btn btn-success" (click)="deleteBlog()">Oui</button>
+      <a routerLink="/"><button [disabled]="processing" type="button" name="button" class="btn btn-danger">Non</button></a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">{{ blog.title }}</h3>
+      <p class="card-text">
+        {{ blog.body }}
+      </p>
+      <div class="card-footer">
+        <strong>Posté par : </strong> {{ blog.createdBy }}
+        <br>
+        <strong>Date : </strong> {{ blog.createdAt | date:'dd MMM, yyyy' }}
+      </div>
+    </div>
+  </div>
+</div>
